@@ -8,6 +8,18 @@
     }.bind(this);
     xhr.send();
   },
+  handleCommentSubmit: function(comment) {
+    var data = new FormData();
+    data.append('Author', comment.Author);
+    data.append('Text', comment.Text);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('post', this.props.submitUrl, true);
+    xhr.onload = function() {
+      this.loadCommentsFromServer();
+    }.bind(this);
+    xhr.send(data);
+  },
   getInitialState: function() {
     return {data: []};
   },
@@ -20,7 +32,7 @@
       <div className="commentBox">
         <h1>Comments</h1>
         <CommentList data={this.state.data} />
-        <CommentForm />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>
     );
   }
@@ -59,11 +71,23 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
+  handleSubmit: function(e) {
+    e.preventDefault();
+    var author = this.refs.author.getDOMNode().value.trim();
+    var text = this.refs.text.getDOMNode().value.trim();
+    if (!text || !author) {
+      return;
+    }
+    this.props.onCommentSubmit({Author: author, Text: text});
+    this.refs.author.getDOMNode().value = '';
+    this.refs.text.getDOMNode().value = '';
+    return;
+  },
   render: function() {
     return (
-      <form className="commentForm">
-        <input type="text" placeholder="Your name" />
-        <input type="text" placeholder="Say something..." />
+      <form className="commentForm" onSubmit={this.handleSubmit}>
+        <input type="text" placeholder="Your name" ref="author" />
+        <input type="text" placeholder="Say something..." ref="text" />
         <input type="submit" value="Post" />
       </form>
     );
@@ -71,6 +95,6 @@ var CommentForm = React.createClass({
 });
 
 React.render(
-  <CommentBox url="/comments" pollInterval={2000} />,
+  <CommentBox url="/comments" submitUrl="/comments/new" pollInterval={2000} />,
   document.getElementById('content')
 );
