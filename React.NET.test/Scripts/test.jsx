@@ -1,8 +1,5 @@
 ﻿var CommentBox = React.createClass({
-  getInitialState: function() {
-    return {data: []};
-  },
-  componentWillMount: function() {
+  loadCommentsFromServer: function() {
     var xhr = new XMLHttpRequest();
     xhr.open('get', this.props.url, true);
     xhr.onload = function() {
@@ -10,6 +7,13 @@
       this.setState({ data: data });
     }.bind(this);
     xhr.send();
+  },
+  getInitialState: function() {
+    return {data: []};
+  },
+  componentDidMount: function() {
+    this.loadCommentsFromServer();
+    window.setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render: function() {
     return (
@@ -65,6 +69,6 @@ var CommentForm = React.createClass({
 });
 
 React.render(
-  <CommentBox url="/home/comments" />,
+  <CommentBox url="/home/comments" pollInterval={2000} />,
   document.getElementById('content')
 );
