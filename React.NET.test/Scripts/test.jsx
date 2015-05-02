@@ -1,10 +1,4 @@
-﻿var data = [
-  { Author: "Daniel Lo Nigro", Text: "Hello ReactJS.NET World!" },
-  { Author: "Pete Hunt", Text: "This is one comment" },
-  { Author: "Jordan Walke", Text: "This is *another* comment" }
-];
-
-var CommentBox = React.createClass({
+﻿var CommentBox = React.createClass({
   render: function() {
     return (
       <div className="commentBox">
@@ -59,6 +53,6 @@ var CommentForm = React.createClass({
 });
 
 React.render(
-  <CommentBox data={data} />,
+  <CommentBox url="/comments" />,
   document.getElementById('content')
 );

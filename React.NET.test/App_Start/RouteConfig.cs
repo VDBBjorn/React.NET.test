@@ -18,6 +18,12 @@ namespace React.NET.test
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Comments",
+                url: "comments",
+                defaults: new { controller = "Home", action = "Comments" }
+            );
         }
     }
 }
