@@ -40,9 +40,18 @@ namespace React.NET.test.Controllers
         }
 
         [OutputCache(Location = OutputCacheLocation.None)]
+        [Route("Comments")]
         public ActionResult Comments()
         {
             return Json(_comments, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [Route("NewComment")]
+        public ActionResult AddComment(CommentModel comment)
+        {
+            _comments.Add(comment);
+            return Content("Success!");
         }
     }
 }

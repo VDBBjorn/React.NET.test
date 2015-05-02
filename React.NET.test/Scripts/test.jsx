@@ -61,14 +61,16 @@ var CommentList = React.createClass({
 var CommentForm = React.createClass({
   render: function() {
     return (
-      <div className="commentForm">
-        Hello, world! I am a CommentForm.
-      </div>
+      <form className="commentForm">
+        <input type="text" placeholder="Your name" />
+        <input type="text" placeholder="Say something..." />
+        <input type="submit" value="Post" />
+      </form>
     );
   }
 });
 
 React.render(
-  <CommentBox url="/home/comments" pollInterval={2000} />,
+  <CommentBox url="/comments" pollInterval={2000} />,
   document.getElementById('content')
 );
